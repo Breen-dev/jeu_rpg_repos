@@ -1,10 +1,13 @@
 class Item():
 	#items are all the things like potions or weapons that can be wield by humans
 	#mass is the amount of space it will take in the inventory
-	def __init__(self, numberId, name, mass):
+	#the owner has to be specified but to make it ownerless name it : "--nobody--"
+	def __init__(self, numberId, name, mass, owner):
 		self.numberId = int(numberId)
 		self.name = str(name)
 		self.mass = int(mass)
+		self.owner = str(owner)
+
 
 	#getters
 	def get_numberId(self):
@@ -16,6 +19,9 @@ class Item():
 	def get_mass(self):
 		return self.mass
 
+	def get_owner(self):
+		return self.owner
+
 	#setters
 	def set_name(self, name):
 		self.name = name
@@ -26,11 +32,21 @@ class Item():
 	def set_mass(self, mass):
 		self.mass = mass
 
+	def set_owner(self, owner):
+		self.owner = owner
+
+	#classFunction
+	def isPicked(self):
+		if get_owner() != "--nobody--":
+			return True
+
+		return False
+
 class Consumable(Item):
-	#uses are here to limit the number of time you czn use the object
+	#uses are here to limit the number of time you can use the object it decrease by one each use
 	#to set effects use a dictionnary with the stat name as key and the value to add to the entity's stat
-	def __init__(self, numberId, name, mass, uses, effects):
-		super().__init__(numberId, name, mass)
+	def __init__(self, numberId, name, mass, owner, uses, effects):
+		super().__init__(numberId, name, mass, owner)
 		self.uses = int(uses)
 		self.effects = effects
 
@@ -52,11 +68,22 @@ class Consumable(Item):
 		return string(self.name)
 
 	#classFunction
-	def isUsable(self):
-		if self.uses < 1:
+	def showUsesLeft(self): #show the number of uses left
+		if self.get_owner() != "--nobody--":
+			print(self.get_name() + " of " + str(self.get_owner()) + " has " + str(self.get_uses()) + " uses left")
+		else:
+			print(self.get_name() + " has " + str(self.get_uses()) + " uses left")
+
+	def isUsable(self): #return true if the object has more than one uses left else false
+		if self.get_uses() < 1:
 			return False
 
 		return True
+
+	def useItem(self): #decrement the number of uses by one
+		if self.isUsable():
+			self.set_uses(self.get_uses() - 1)
+
 
 class Equipement(Item):
 	def __init__(self, numberId, name, mass, bodyParts, durability, effects):
