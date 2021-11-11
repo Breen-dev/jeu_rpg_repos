@@ -1,18 +1,12 @@
 #Entity class where everything "alive" should be
 class Entity():
-	def __init__(self, numberId, name, healthPoints, family):
+	def __init__(self, numberId, name):
 		self.numberId = int(numberId)
 		self.name = str(name)
 		self.healthPoints = int(healthPoints)
 		self.family = str(family)
 
 	#getters
-	def get_healthPoints(self):
-		return self.healthPoints
-
-	def get_family(self):
-		return self.family
-
 	def set_numberId(self, numberId):
 		 self.numberId = numberId
 
@@ -20,29 +14,41 @@ class Entity():
 		self.name = name
 
 	#setters
-	def set_healthPoints(self, healthPoints):
-		self.healthPoints = healthPoints
-
-	def set_family(self, family):
-		self.family = family
-
 	def get_numberId(self):
 		return self.numberId
 
 	def get_name(self, name):
 		return self.name
 
-	def __repr__(self):
-		return str(self.numberId)
-
 	#representation
 	def __repr__(self):
 		return str(self.numberId)
 
+class Caracter(Entity):
+	def __init__(self, numberId, name, health, attack):
+		super().__init__(numberId, name, health)
+		self.attack = attack
 
-	#classFucntions
+	#getters
+	def get_attack(self):
+		return self.attack
+
+	def set_health(self, health):
+		self.health = health
+
+	#setters
+	def set_attack(self, attack):
+		self.attack = attack
+
+	def get_health(self):
+		return self.health
+
+	#classFunctions	
 	def isDead(self):
 		if healthPoints < 1:
 			return True
 
 		return False
+
+
+
